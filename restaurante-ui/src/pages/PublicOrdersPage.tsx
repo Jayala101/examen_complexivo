@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Container, Paper, Typography, Button, Stack, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
-import { type Vehiculo, listVehiculosPublicApi } from "../api/vehiculos.api";
+import { type Order, listOrdersPublicApi } from "../api/orders.api";
 
-export default function PublicVehiclesPage() {
-  const [items, setItems] = useState<Vehiculo[]>([]);
+export default function PublicOrdersPage() {
+  const [items, setItems] = useState<Order[]>([]);
   const [error, setError] = useState("");
 
   const load = async () => {
     try {
       setError("");
-      const data = await listVehiculosPublicApi();
-      setItems(data.results); // DRF paginado
+      const data = await listOrdersPublicApi();
+      setItems(data.results);
     } catch {
       setError("No se pudo cargar la lista pública. ¿Backend encendido?");
     }
@@ -22,7 +22,7 @@ export default function PublicVehiclesPage() {
     <Container sx={{ mt: 3 }}>
       <Paper sx={{ p: 3 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-          <Typography variant="h5">Lista de Vehículos (Público)</Typography>
+          <Typography variant="h5">Lista de Pedidos (Público)</Typography>
           <Button variant="outlined" onClick={load}>Refrescar</Button>
         </Stack>
 
@@ -32,22 +32,18 @@ export default function PublicVehiclesPage() {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Marca</TableCell>
-              <TableCell>Modelo</TableCell>
-              <TableCell>Año</TableCell>
-              <TableCell>Placa</TableCell>
-              <TableCell>Color</TableCell>
+              <TableCell>Mesa</TableCell>
+              <TableCell>Resumen</TableCell>
+              <TableCell>Estado</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((v) => (
-              <TableRow key={v.id}>
-                <TableCell>{v.id}</TableCell>
-                <TableCell>{v.marca_nombre ?? v.marca}</TableCell>
-                <TableCell>{v.modelo}</TableCell>
-                <TableCell>{v.anio}</TableCell>
-                <TableCell>{v.placa}</TableCell>
-                <TableCell>{v.color || "-"}</TableCell>
+            {items.map((o) => (
+              <TableRow key={o.id}>
+                <TableCell>{o.id}</TableCell>
+                <TableCell>{o.tables_name}</TableCell>
+                <TableCell>{o.items_summary}</TableCell>
+                <TableCell>{o.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>

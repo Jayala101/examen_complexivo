@@ -8,7 +8,8 @@ class MenusSerializer(serializers.Serializer):
     created_at = serializers.DateField(required=False) 
 
 class OrderEventSerializer(serializers.Serializer):
-    order_id = serializers.IntegerField()        # ID de Vehiculo (Postgres)
-    event_type = serializers.CharField()
-    source = serializers.CharField()
-    created_at = serializers.DateField(required=False) 
+    order_id = serializers.IntegerField()       
+    event_type = serializers.CharField()          
+    source = serializers.CharField()         
+    note = serializers.CharField(required=False, allow_blank=True)
+    created_at = serializers.DateField(required=False)

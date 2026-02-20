@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { View, Text, TextInput, Pressable, FlatList, StyleSheet } from "react-native";
 
-import { listServiceTypesApi, createServiceTypeApi, deleteServiceTypeApi } from "../api/serviceTypes.api";
-import type { ServiceType } from "../types/serviceType";
+import { listMenusApi, createMenuApi, deleteMenuApi } from "../api/menus.api";
+import type { Menu } from "../types/menu";
 import { toArray } from "../types/drf";
 
 function normalizeText(input: string): string {
   return input.trim();
 }
 
-export default function ServiceTypesScreen() {
-  const [items, setItems] = useState<ServiceType[]>([]);
+export default function MenusScreen() {
+  const [items, setItems] = useState<Menu[]>([]);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const load = async (): Promise<void> => {
     try {
       setErrorMessage("");
-      const data = await listServiceTypesApi();
+      const data = await listMenusApi();
       setItems(toArray(data));
     } catch {
-      setErrorMessage("No se pudo cargar service types. ¿Login? ¿Token?");
+      setErrorMessage("No se pudo cargar Menús. ¿Login? ¿Token?");
     }
   };
 
@@ -32,59 +33,73 @@ export default function ServiceTypesScreen() {
       setErrorMessage("");
 
       const cleanName = normalizeText(name);
-      if (!cleanName) return setErrorMessage("Name es requerido");
+      if (!cleanName) return setErrorMessage("Nombre es requerido");
 
-      const created = await createServiceTypeApi({
+      const parsedPrice = price.trim() ? parseFloat(price) : undefined;
+
+      const created = await createMenuApi({
         name: cleanName,
-        description: normalizeText(description) || undefined,
+        category: normalizeText(category) || undefined,
+        price: parsedPrice,
       });
 
       setItems((prev) => [created, ...prev]);
       setName("");
-      setDescription("");
+      setCategory("");
+      setPrice("");
     } catch {
-      setErrorMessage("No se pudo crear service type.");
+      setErrorMessage("No se pudo crear ítem de menú.");
     }
   };
 
   const removeItem = async (id: string): Promise<void> => {
     try {
       setErrorMessage("");
-      await deleteServiceTypeApi(id);
+      await deleteMenuApi(id);
       setItems((prev) => prev.filter((it) => it.id !== id));
     } catch {
-      setErrorMessage("No se pudo eliminar service type.");
+      setErrorMessage("No se pudo eliminar ítem.");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Service Types</Text>
+      <Text style={styles.title}>Gestión de Menú</Text>
       {!!errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
 
-      <Text style={styles.label}>Nombre</Text>
+      <Text style={styles.label}>Nombre del plato</Text>
       <TextInput
         value={name}
         onChangeText={setName}
-        placeholder="Cambio de aceite"
+        placeholder="Ej: Pizza Margarita"
         placeholderTextColor="#8b949e"
         style={styles.input}
       />
 
-      <Text style={styles.label}>Descripción (opcional)</Text>
+      <Text style={styles.label}>Categoría</Text>
       <TextInput
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Aceite + filtro"
+        value={category}
+        onChangeText={setCategory}
+        placeholder="Ej: Comida Italiana"
         placeholderTextColor="#8b949e"
+        style={styles.input}
+      />
+
+      <Text style={styles.label}>Precio</Text>
+      <TextInput
+        value={price}
+        onChangeText={setPrice}
+        placeholder="12.50"
+        placeholderTextColor="#8b949e"
+        keyboardType="numeric"
         style={styles.input}
       />
 
       <Pressable onPress={createItem} style={styles.btn}>
-        <Text style={styles.btnText}>Crear</Text>
+        <Text style={styles.btnText}>Crear Plato</Text>
       </Pressable>
 
-      <Pressable onPress={load} style={[styles.btn, { marginBottom: 12 }]}>
+      <Pressable onPress={load} style={[styles.btn, { marginBottom: 12, marginTop: 10 }]}>
         <Text style={styles.btnText}>Refrescar</Text>
       </Pressable>
 
@@ -95,7 +110,9 @@ export default function ServiceTypesScreen() {
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 10 }}>
               <Text style={styles.rowText} numberOfLines={1}>{item.name}</Text>
-              {!!item.description && <Text style={styles.rowSub} numberOfLines={1}>{item.description}</Text>}
+              <Text style={styles.rowSub} numberOfLines={1}>
+                {item.category || "Sin categoría"} - ${item.price ?? "0"}
+              </Text>
             </View>
 
             <Pressable onPress={() => removeItem(item.id)}>

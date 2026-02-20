@@ -3,12 +3,12 @@ import { AppBar, Toolbar, Typography, Button, Stack } from "@mui/material";
 
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import PublicVehiclesPage from "./pages/PublicVehiclesPage";
+import PublicOrdersPage from "./pages/PublicOrdersPage";
 import LoginPage from "./pages/LoginPage";
 
 import AdminHomePage from "./pages/AdminHomePage";
-import AdminMarcasPage from "./pages/AdminMarcasPage";
-import AdminVehiculosPage from "./pages/AdminVehiculosPage";
+import AdminTablesPage from "./pages/AdminTablesPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 import RequireAuth from "./components/RequireAuth";
 
@@ -18,13 +18,13 @@ export default function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Vehículos UI (MUI)
+            Restaurante UI (MUI)
           </Typography>
 
           <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/acerca">Acerca</Button>
-            <Button color="inherit" component={Link} to="/lista">Lista</Button>
+            <Button color="inherit" component={Link} to="/pedidos">Pedidos</Button>
             <Button color="inherit" component={Link} to="/login">Login</Button>
             <Button color="inherit" component={Link} to="/admin">Admin</Button>
           </Stack>
@@ -34,7 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/acerca" element={<AboutPage />} />
-        <Route path="/lista" element={<PublicVehiclesPage />} />
+        <Route path="/pedidos" element={<PublicOrdersPage />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route
@@ -47,19 +47,19 @@ export default function App() {
         />
 
         <Route
-          path="/admin/marcas"
+          path="/admin/tables"
           element={
             <RequireAuth>
-              <AdminMarcasPage />
+              <AdminTablesPage />
             </RequireAuth>
           }
         />
 
         <Route
-          path="/admin/vehiculos"
+          path="/admin/orders"
           element={
             <RequireAuth>
-              <AdminVehiculosPage />
+              <AdminOrdersPage />
             </RequireAuth>
           }
         />

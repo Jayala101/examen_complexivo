@@ -7,7 +7,7 @@ from bson.errors import InvalidId
 from .mongo import db
 from .mongo_serializers import OrderEventSerializer
 
-col = db["vehicle_services"]
+col = db["order_events"]
 
 def fix_id(doc):
     doc["id"] = str(doc["_id"])
@@ -22,7 +22,7 @@ def oid_or_none(id_str: str):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
-def vehicle_services_list_create(request):
+def order_events_list_create(request):
     if request.method == "GET":
         q = dict(request.query_params)
         docs = [fix_id(d) for d in col.find(q)]
@@ -37,7 +37,7 @@ def vehicle_services_list_create(request):
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
-def vehicle_services_detail(request, id: str):
+def order_events_detail(request, id: str):
     _id = oid_or_none(id)
     if _id is None:
         return Response({"detail": "id inválido"}, status=status.HTTP_400_BAD_REQUEST)

@@ -11,10 +11,10 @@ export default function AboutPage() {
         </Typography>
 
         <List dense>
-          <ListItem><ListItemText primary="GET /api/vehiculos/ (público, paginado)" /></ListItem>
+          <ListItem><ListItemText primary="GET /api/orders/ (público, paginado)" /></ListItem>
           <ListItem><ListItemText primary="POST /api/auth/login/ (JWT)" /></ListItem>
-          <ListItem><ListItemText primary="CRUD /api/marcas/ (admin, paginado en LIST)" /></ListItem>
-          <ListItem><ListItemText primary="CRUD /api/vehiculos/ (admin, paginado en LIST)" /></ListItem>
+          <ListItem><ListItemText primary="CRUD /api/tables/ (admin, paginado)" /></ListItem>
+          <ListItem><ListItemText primary="CRUD /api/orders/ (admin, paginado)" /></ListItem>
         </List>
 
         <Typography variant="body2" color="text.secondary">

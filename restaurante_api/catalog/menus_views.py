@@ -7,7 +7,7 @@ from bson.errors import InvalidId
 from .mongo import db
 from .mongo_serializers import MenusSerializer
 
-col = db["service_types"]
+col = db["menus"]
 
 def fix_id(doc):
     doc["id"] = str(doc["_id"])
@@ -22,9 +22,8 @@ def oid_or_none(id_str: str):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
-def service_types_list_create(request):
+def menus_list_create(request):
     if request.method == "GET":
-        # filtros simples: ?name=...&is_active=true (strings)
         q = dict(request.query_params)
         docs = [fix_id(d) for d in col.find(q)]
         return Response(docs)
@@ -38,7 +37,7 @@ def service_types_list_create(request):
 
 @api_view(["GET", "PUT", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
-def service_types_detail(request, id: str):
+def menus_detail(request, id: str):
     _id = oid_or_none(id)
     if _id is None:
         return Response({"detail": "id inválido"}, status=status.HTTP_400_BAD_REQUEST)

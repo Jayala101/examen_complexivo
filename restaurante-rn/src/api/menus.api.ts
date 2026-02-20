@@ -1,17 +1,17 @@
 import { http } from "./http";
-import type { ServiceType } from "../types/serviceType";
+import type { Menu } from "../types/menu";
 import type { Paginated } from "../types/drf";
 
-export async function listServiceTypesApi(): Promise<Paginated<ServiceType> | ServiceType[]> {
-  const { data } = await http.get<Paginated<ServiceType> | ServiceType[]>("/api/service-types/");
+export async function listMenusApi(): Promise<Paginated<Menu> | Menu[]> {
+  const { data } = await http.get<Paginated<Menu> | Menu[]>("/api/menus/");
   return data;
 }
 
-export async function createServiceTypeApi(payload: Pick<ServiceType, "name"> & Partial<ServiceType>): Promise<ServiceType> {
-  const { data } = await http.post<ServiceType>("/api/service-types/", payload);
+export async function createMenuApi(payload: Pick<Menu, "name"> & Partial<Menu>): Promise<Menu> {
+  const { data } = await http.post<Menu>("/api/menus/", payload);
   return data;
 }
 
-export async function deleteServiceTypeApi(id: string): Promise<void> {
+export async function deleteMenuApi(id: string): Promise<void> {
   await http.delete(`/api/service-types/${id}/`);
 }

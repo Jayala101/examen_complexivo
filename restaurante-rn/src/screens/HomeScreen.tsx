@@ -20,19 +20,19 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Menú</Text>
-      <Text style={styles.sub}>CRUD Mongo mínimo + selects</Text>
+      <Text style={styles.title}>Gestión Restaurante</Text>
+      <Text style={styles.sub}>Administración de Menús y Eventos de Órdenes</Text>
 
-      <Pressable onPress={() => navigation.navigate("ServiceTypes")} style={styles.btn}>
-        <Text style={styles.btnText}>Service Types (list/create/delete)</Text>
+      <Pressable onPress={() => navigation.navigate("Menus")} style={styles.btn}>
+        <Text style={styles.btnText}>Platos del Menú (Mongo)</Text>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("VehicleServices")} style={styles.btn}>
-        <Text style={styles.btnText}>Vehicle Services (2 selects + create/delete)</Text>
+      <Pressable onPress={() => navigation.navigate("OrderEvents")} style={styles.btn}>
+        <Text style={styles.btnText}>Eventos de Órdenes (Mongo y Postgres)</Text>
       </Pressable>
 
       <Pressable onPress={logout} style={[styles.btn, styles.btnDanger]}>
-        <Text style={[styles.btnText, styles.btnDangerText]}>Salir (logout)</Text>
+        <Text style={[styles.btnText, styles.btnDangerText]}>Cerrar Sesión</Text>
       </Pressable>
     </View>
   );

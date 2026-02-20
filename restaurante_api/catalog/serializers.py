@@ -7,8 +7,8 @@ class TablesSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "capacity", "is_available"]
 
 class OrdersSerializer(serializers.ModelSerializer):
-    tables_name = serializers.CharField(source="tables.name", read_only=True)
+    tables_name = serializers.CharField(source="table.name", read_only=True)
 
     class Meta:
         model = Orders
-        fields = ["id", "tables_name", "total", "status","created_at"]
+        fields = ["id", "table", "tables_name", "items_summary", "total", "status", "created_at"]
